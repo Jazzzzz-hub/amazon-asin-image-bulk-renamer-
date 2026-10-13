@@ -1,0 +1,133 @@
+# Amazon ASIN Bulk Image Renamer
+
+A simple PowerShell script that automatically copies Amazon product images and renames them using ASINs with the required image type suffixes.
+
+It is useful when the same set of product images needs to be assigned to multiple Amazon ASINs without manually copying and renaming every file.
+
+## What It Does
+
+If your folder contains:
+
+```text
+PT01.jpg
+PT02.jpg
+PT03.jpg
+PT04.jpg
+PT05.jpg
+```
+
+the script creates copies for every ASIN in this format:
+
+```text
+ASIN.PT01.jpg
+ASIN.PT02.jpg
+ASIN.PT03.jpg
+ASIN.PT04.jpg
+ASIN.PT05.jpg
+```
+
+For example:
+
+```text
+B0XXXXXXXX.PT01.jpg
+B0XXXXXXXX.PT02.jpg
+B0XXXXXXXX.PT03.jpg
+B0XXXXXXXX.PT04.jpg
+B0XXXXXXXX.PT05.jpg
+```
+
+## PowerShell Script
+
+```powershell
+$ASINs = @(
+    "ASIN-HERE-01",
+    "ASIN-HERE-02",
+    "ASIN-HERE-03",
+    "ASIN-HERE-04",
+    "ASIN-HERE-05",
+    "ASIN-HERE-06",
+    "ASIN-HERE-07",
+    "ASIN-HERE-08",
+    "ASIN-HERE-09"
+)
+
+$imageTypes = @(
+    "PT01",
+    "PT02",
+    "PT03",
+    "PT04",
+    "PT05"
+)
+
+foreach ($asin in $ASINs) {
+    foreach ($type in $imageTypes) {
+        Copy-Item ".\$type.jpg" ".\$asin.$type.jpg"
+    }
+}
+```
+
+## How to Use
+
+1. Create a folder containing:
+
+```text
+PT01.jpg
+PT02.jpg
+PT03.jpg
+PT04.jpg
+PT05.jpg
+```
+
+2. Place the PowerShell script in the same folder.
+
+3. Replace:
+
+```text
+ASIN-HERE-01
+ASIN-HERE-02
+ASIN-HERE-03
+```
+
+with your actual Amazon ASINs.
+
+4. Open PowerShell or Windows Terminal in that folder.
+
+5. Run the script.
+
+For 9 ASINs and 5 source images, the script automatically creates:
+
+```text
+9 ASINs × 5 images = 45 renamed images
+```
+
+The original `PT01.jpg` through `PT05.jpg` files remain unchanged.
+
+## Example Folder Before
+
+```text
+Amazon-Images/
+├── PT01.jpg
+├── PT02.jpg
+├── PT03.jpg
+├── PT04.jpg
+├── PT05.jpg
+└── Amazon-ASIN-Image-Renamer.ps1
+```
+
+## Example Folder After
+
+```text
+Amazon-Images/
+├── PT01.jpg
+├── PT02.jpg
+├── PT03.jpg
+├── PT04.jpg
+├── PT05.jpg
+│
+├── B0XXXXXXXX.PT01.jpg
+├── B0XXXXXXXX.PT02.jpg
+├── B0XXXXXXXX.PT03.jpg
+├── B0XXXXXXXX.PT04.jpg
+├── B0XXXXXXXX.PT05.jpg
+└── ...
+```
